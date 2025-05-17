@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:taskati/features/intro/splash_screen.dart';
 
-void main() {}
+void main() {
+  runApp(Taskati());
+}
 
 class Taskati extends StatelessWidget {
   const Taskati({super.key});
@@ -9,7 +12,10 @@ class Taskati extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Scaffold(),
+      theme: ThemeData(
+        fontFamily: 'Poppins',
+      ),
+      home: SplashScreen(),
     );
   }
 }
