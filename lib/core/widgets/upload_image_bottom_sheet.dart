@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:taskati/core/function/navigations.dart';
 import 'package:taskati/core/widgets/main_button.dart';
 
 showUploadBottomSheet(
@@ -26,9 +25,5 @@ showUploadBottomSheet(
                 ),
               ],
             ));
-      }).then(
-    (value) {
-      context.pop();
-    },
-  );
+      });
 }
