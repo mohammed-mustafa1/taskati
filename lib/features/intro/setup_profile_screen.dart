@@ -1,8 +1,9 @@
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taskati/core/constants/app_images.dart';
 import 'package:taskati/core/function/dialogs.dart';
@@ -23,6 +24,7 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
   TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    Box userBox = Hive.box('user');
     return Scaffold(
       backgroundColor: AppColors.black,
       appBar: AppBar(
@@ -31,7 +33,8 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
           TextButton(
             onPressed: () {
               if (imagePath != null && nameController.text.isNotEmpty) {
-                print('success');
+                userBox.put('image', imagePath);
+                userBox.put('name', nameController.text);
               }
               if (imagePath == null) {
                 showErrorDialog(context, message: 'Please select an image');
