@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:taskati/core/function/navigations.dart';
 import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/core/utils/text_styles.dart';
+import 'package:taskati/features/intro/setup_profile_screen.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -28,10 +30,17 @@ class HomeHeader extends StatelessWidget {
                 ),
               ]),
         ),
-        CircleAvatar(
-          radius: 25,
-          backgroundImage:
-              FileImage(File(LocalStorage.getData(key: LocalStorage.image))),
+        GestureDetector(
+          onTap: () {
+            context.push(const SetupProfileScreen(
+              isFirstTime: false,
+            ));
+          },
+          child: CircleAvatar(
+            radius: 25,
+            backgroundImage:
+                FileImage(File(LocalStorage.getData(key: LocalStorage.image))),
+          ),
         )
       ],
     );

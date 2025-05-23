@@ -23,7 +23,9 @@ class _SplashBodyState extends State<SplashBody> {
       if (isFirstTime != null) {
         context.pushReplacement(const HomeScreen());
       } else {
-        context.pushReplacement(const SetupProfileScreen());
+        context.pushReplacement(SetupProfileScreen(
+          isFirstTime: isFirstTime == null,
+        ));
       }
     });
   }

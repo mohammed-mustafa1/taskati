@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -8,27 +7,58 @@ import 'package:taskati/core/function/dialogs.dart';
 import 'package:taskati/core/function/navigations.dart';
 import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/core/utils/colors.dart';
+import 'package:taskati/core/utils/text_styles.dart';
 import 'package:taskati/core/widgets/custom_text_field.dart';
 import 'package:taskati/core/widgets/upload_image_bottom_sheet.dart';
 import 'package:taskati/features/home/page/home_screen.dart';
 
 class SetupProfileScreen extends StatefulWidget {
-  const SetupProfileScreen({super.key});
-
+  const SetupProfileScreen({super.key, required this.isFirstTime});
+  final bool isFirstTime;
   @override
   State<SetupProfileScreen> createState() => _SetupProfileScreenState();
 }
 
 class _SetupProfileScreenState extends State<SetupProfileScreen> {
   String? imagePath;
+  bool editingName = false;
+  bool isDarkMode = false;
   TextEditingController nameController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    imagePath = LocalStorage.getData(key: LocalStorage.image);
+    nameController.text = LocalStorage.getData(key: LocalStorage.name) ?? '';
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.black,
       appBar: AppBar(
-        backgroundColor: AppColors.black,
         actions: [
+          Visibility(
+            visible: !widget.isFirstTime,
+            child: IconButton(
+                onPressed: () {
+                  setState(() {
+                    isDarkMode = !isDarkMode;
+                    LocalStorage.cashData(
+                      key: LocalStorage.theme,
+                      value: isDarkMode == true
+                          ? Brightness.dark.name
+                          : Brightness.light.name,
+                    );
+                  });
+                },
+                icon: Icon(
+                  isDarkMode == true
+                      ? Icons.light_mode_outlined
+                      : Icons.dark_mode_outlined,
+                  size: 32,
+                )),
+          ),
           TextButton(
             onPressed: () {
               if (imagePath != null && nameController.text.isNotEmpty) {
@@ -108,8 +138,41 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
             Divider(
                 thickness: 1, color: AppColors.grey, endIndent: 20, indent: 20),
             SizedBox(height: 24),
-            CustomTextField(
-                controller: nameController, hintText: 'Enter Your Name'),
+            Visibility(
+              visible: !editingName,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    LocalStorage.getData(key: LocalStorage.name) ?? '',
+                    style: TextStyles.title,
+                  ),
+                  GestureDetector(
+                    onTap: () {
+                      editingName = true;
+                      setState(() {});
+                    },
+                    child: CircleAvatar(
+                      backgroundColor: AppColors.primaryColor,
+                      radius: 24,
+                      child: CircleAvatar(
+                        backgroundColor: Colors.white,
+                        radius: 22,
+                        child: Icon(
+                          Icons.edit,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            Visibility(
+              visible: editingName,
+              child: CustomTextField(
+                  controller: nameController, hintText: 'Enter Your Name'),
+            ),
           ],
         ),
       ),
