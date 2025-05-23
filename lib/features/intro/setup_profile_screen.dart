@@ -1,16 +1,16 @@
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:hive/hive.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:taskati/core/constants/app_images.dart';
 import 'package:taskati/core/function/dialogs.dart';
 import 'package:taskati/core/function/navigations.dart';
+import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/core/widgets/custom_text_field.dart';
 import 'package:taskati/core/widgets/upload_image_bottom_sheet.dart';
+import 'package:taskati/features/home/page/home_screen.dart';
 
 class SetupProfileScreen extends StatefulWidget {
   const SetupProfileScreen({super.key});
@@ -24,7 +24,6 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
   TextEditingController nameController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    Box userBox = Hive.box('user');
     return Scaffold(
       backgroundColor: AppColors.black,
       appBar: AppBar(
@@ -33,8 +32,11 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
           TextButton(
             onPressed: () {
               if (imagePath != null && nameController.text.isNotEmpty) {
-                userBox.put('image', imagePath);
-                userBox.put('name', nameController.text);
+                LocalStorage.cashData(
+                    key: LocalStorage.image, value: imagePath!);
+                LocalStorage.cashData(
+                    key: LocalStorage.name, value: nameController.text);
+                context.pushReplacement(const HomeScreen());
               }
               if (imagePath == null) {
                 showErrorDialog(context, message: 'Please select an image');

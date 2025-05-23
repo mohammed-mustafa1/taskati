@@ -6,14 +6,18 @@ class MainButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPress,
+    this.height,
+    this.width,
   });
   final String text;
   final Function()? onPress;
+  final double? height;
+  final double? width;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 60,
-      width: double.infinity,
+      height: height ?? 50,
+      width: width ?? double.infinity,
       child: ElevatedButton(
         onPressed: onPress,
         style: ElevatedButton.styleFrom(

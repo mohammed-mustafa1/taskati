@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:taskati/core/constants/app_images.dart';
 import 'package:taskati/core/function/navigations.dart';
+import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/core/utils/colors.dart';
+import 'package:taskati/features/home/page/home_screen.dart';
 import 'package:taskati/features/intro/setup_profile_screen.dart';
 
 class SplashBody extends StatefulWidget {
@@ -16,8 +18,13 @@ class _SplashBodyState extends State<SplashBody> {
   @override
   void initState() {
     super.initState();
+    String? isFirstTime = LocalStorage.getData(key: LocalStorage.name);
     Future.delayed(Duration(seconds: 2), () {
-      context.pushReplacement(const SetupProfileScreen());
+      if (isFirstTime != null) {
+        context.pushReplacement(const HomeScreen());
+      } else {
+        context.pushReplacement(const SetupProfileScreen());
+      }
     });
   }
 

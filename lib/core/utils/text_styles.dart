@@ -5,7 +5,7 @@ class TextStyles {
   static const title = TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.bold,
-    color: AppColors.black,
+    color: AppColors.primaryColor,
   );
 
   static const small = TextStyle(
@@ -17,6 +17,5 @@ class TextStyles {
   static const body = TextStyle(
     fontSize: 16,
     fontWeight: FontWeight.normal,
-    color: AppColors.black,
   );
 }
