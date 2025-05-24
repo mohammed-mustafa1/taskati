@@ -30,6 +30,7 @@ class _TaskatiState extends State<Taskati> {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
+              appBarTheme: AppBarTheme(centerTitle: true),
               brightness: value.get(LocalStorage.theme) == 'dark'
                   ? Brightness.dark
                   : Brightness.light,
