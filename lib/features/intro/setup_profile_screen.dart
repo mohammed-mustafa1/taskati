@@ -29,8 +29,12 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
   void initState() {
     super.initState();
 
-    imagePath = LocalStorage.getData(key: LocalStorage.image);
-    nameController.text = LocalStorage.getData(key: LocalStorage.name) ?? '';
+    imagePath = LocalStorage.getUserData(key: LocalStorage.image);
+    nameController.text =
+        LocalStorage.getUserData(key: LocalStorage.name) ?? '';
+    isDarkMode = LocalStorage.getUserData(key: LocalStorage.theme) ==
+        Brightness.dark.name;
+    editingName = widget.isFirstTime;
   }
 
   @override
@@ -38,33 +42,30 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
-          Visibility(
-            visible: !widget.isFirstTime,
-            child: IconButton(
-                onPressed: () {
-                  setState(() {
-                    isDarkMode = !isDarkMode;
-                    LocalStorage.cashData(
-                      key: LocalStorage.theme,
-                      value: isDarkMode == true
-                          ? Brightness.dark.name
-                          : Brightness.light.name,
-                    );
-                  });
-                },
-                icon: Icon(
-                  isDarkMode == true
-                      ? Icons.light_mode_outlined
-                      : Icons.dark_mode_outlined,
-                  size: 32,
-                )),
-          ),
+          IconButton(
+              onPressed: () {
+                setState(() {
+                  isDarkMode = !isDarkMode;
+                  LocalStorage.cachUserData(
+                    key: LocalStorage.theme,
+                    value: isDarkMode == true
+                        ? Brightness.dark.name
+                        : Brightness.light.name,
+                  );
+                });
+              },
+              icon: Icon(
+                isDarkMode == true
+                    ? Icons.light_mode_outlined
+                    : Icons.dark_mode_outlined,
+                size: 32,
+              )),
           TextButton(
             onPressed: () {
               if (imagePath != null && nameController.text.isNotEmpty) {
-                LocalStorage.cashData(
+                LocalStorage.cachUserData(
                     key: LocalStorage.image, value: imagePath!);
-                LocalStorage.cashData(
+                LocalStorage.cachUserData(
                     key: LocalStorage.name, value: nameController.text);
                 context.pushReplacement(const HomeScreen());
               }
@@ -144,7 +145,7 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    LocalStorage.getData(key: LocalStorage.name) ?? '',
+                    LocalStorage.getUserData(key: LocalStorage.name) ?? '',
                     style: TextStyles.title,
                   ),
                   GestureDetector(

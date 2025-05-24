@@ -21,7 +21,7 @@ class HomeHeader extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Hello, ${LocalStorage.getData(key: LocalStorage.name)}',
+                  'Hello, ${LocalStorage.getUserData(key: LocalStorage.name)}',
                   style: TextStyles.title,
                 ),
                 Text(
@@ -38,8 +38,8 @@ class HomeHeader extends StatelessWidget {
           },
           child: CircleAvatar(
             radius: 25,
-            backgroundImage:
-                FileImage(File(LocalStorage.getData(key: LocalStorage.image))),
+            backgroundImage: FileImage(
+                File(LocalStorage.getUserData(key: LocalStorage.image))),
           ),
         )
       ],

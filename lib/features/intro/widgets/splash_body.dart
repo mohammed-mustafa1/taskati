@@ -18,8 +18,8 @@ class _SplashBodyState extends State<SplashBody> {
   @override
   void initState() {
     super.initState();
-    String? isFirstTime = LocalStorage.getData(key: LocalStorage.name);
-    Future.delayed(Duration(seconds: 2), () {
+    String? isFirstTime = LocalStorage.getUserData(key: LocalStorage.name);
+    Future.delayed(Duration(seconds: 5), () {
       if (isFirstTime != null) {
         context.pushReplacement(const HomeScreen());
       } else {

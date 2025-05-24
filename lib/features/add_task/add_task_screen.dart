@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:taskati/core/models/task_model.dart';
+import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/core/utils/text_styles.dart';
 import 'package:taskati/core/widgets/main_button.dart';
@@ -27,6 +29,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     endTimeController.text = intl.DateFormat('hh:mm a').format(DateTime.now());
   }
 
+  var formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -41,6 +44,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         child: Padding(
           padding: EdgeInsets.all(16),
           child: Form(
+            key: formKey,
             child: Column(children: [
               title(),
               SizedBox(height: 16),
@@ -57,7 +61,26 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       ),
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16),
-        child: MainButton(text: 'create task', onPress: () {}),
+        child: MainButton(
+            text: 'create task',
+            onPress: () {
+              String id =
+                  titleController.text + DateTime.now().millisecond.toString();
+              if (formKey.currentState!.validate()) {
+                LocalStorage.cachTask(
+                    key: id,
+                    value: TaskModel(
+                        id: id,
+                        title: titleController.text,
+                        description: descriptionController.text,
+                        date: dateController.text,
+                        startTime: startTimeController.text,
+                        endTime: endTimeController.text,
+                        color: selectedColor,
+                        isCompleted: false));
+                Navigator.pop(context);
+              }
+            }),
       ),
     );
   }
@@ -108,6 +131,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         ),
         SizedBox(height: 8),
         TextFormField(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter some text';
+            }
+            return null;
+          },
           controller: descriptionController,
           decoration: InputDecoration(hintText: 'Enter note here'),
           maxLines: 4,
@@ -126,6 +155,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         ),
         SizedBox(height: 8),
         TextFormField(
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter some text';
+            }
+            return null;
+          },
           controller: titleController,
           decoration: InputDecoration(hintText: 'Enter title here'),
         ),
