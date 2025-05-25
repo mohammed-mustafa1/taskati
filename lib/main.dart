@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:taskati/core/models/task_model.dart';
 import 'package:taskati/core/services/local_storage.dart';
-import 'package:taskati/core/utils/colors.dart';
+import 'package:taskati/core/utils/themes.dart';
 import 'package:taskati/features/intro/splash_screen.dart';
 
 void main() async {
@@ -31,31 +31,9 @@ class _TaskatiState extends State<Taskati> {
         builder: (context, value, child) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            theme: ThemeData(
-              appBarTheme: AppBarTheme(centerTitle: true),
-              brightness: value.get(LocalStorage.theme) == 'dark'
-                  ? Brightness.dark
-                  : Brightness.light,
-              inputDecorationTheme: InputDecorationTheme(
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: AppColors.primaryColor),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: AppColors.primaryColor),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: AppColors.primaryColor),
-                ),
-                errorBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(8),
-                  borderSide: BorderSide(color: AppColors.red),
-                ),
-              ),
-              fontFamily: 'Poppins',
-            ),
+            theme: value.get(LocalStorage.theme) == 'dark'
+                ? AppTheme.darkTheme
+                : AppTheme.litheTheme,
             home: SplashScreen(),
           );
         });
