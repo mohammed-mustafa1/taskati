@@ -26,6 +26,7 @@ class MainButton extends StatelessWidget {
               borderRadius: BorderRadius.circular(8),
             )),
         child: Text(
+          textAlign: TextAlign.center,
           text,
           style: TextStyle(color: Colors.white),
         ),
