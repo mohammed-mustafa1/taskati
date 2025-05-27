@@ -33,7 +33,7 @@ class TodayHeader extends StatelessWidget {
             width: MediaQuery.sizeOf(context).width * 0.32,
             text: 'Add Task',
             onPress: () {
-              context.push(const AddTaskScreen());
+              context.push(const AddTaskScreen(task: null));
             }),
       ],
     );

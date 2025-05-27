@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lottie/lottie.dart';
+import 'package:taskati/core/function/navigations.dart';
 import 'package:taskati/core/models/task_model.dart';
 import 'package:taskati/core/services/local_storage.dart';
+import 'package:taskati/features/add_task/add_task_screen.dart';
 import 'package:taskati/features/home/widgets/task_card.dart';
 
 class TaskListBuilder extends StatelessWidget {
@@ -37,7 +39,11 @@ class TaskListBuilder extends StatelessWidget {
                           }
                         },
                         key: UniqueKey(),
-                        child: TaskCard(task: tasks[index]));
+                        child: InkWell(
+                            onTap: () {
+                              context.push(AddTaskScreen(task: tasks[index]));
+                            },
+                            child: TaskCard(task: tasks[index])));
                   },
                 );
         },

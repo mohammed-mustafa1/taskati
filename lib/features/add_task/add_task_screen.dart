@@ -7,7 +7,8 @@ import 'package:taskati/core/utils/text_styles.dart';
 import 'package:taskati/core/widgets/main_button.dart';
 
 class AddTaskScreen extends StatefulWidget {
-  const AddTaskScreen({super.key});
+  const AddTaskScreen({super.key, @required this.task});
+  final TaskModel? task;
 
   @override
   State<AddTaskScreen> createState() => _AddTaskScreenState();
@@ -23,10 +24,21 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   void initState() {
     super.initState();
-    dateController.text = intl.DateFormat.yMMMMd().format(DateTime.now());
-    startTimeController.text =
-        intl.DateFormat('hh:mm a').format(DateTime.now());
-    endTimeController.text = intl.DateFormat('hh:mm a').format(DateTime.now());
+
+    if (widget.task != null) {
+      selectedColor = widget.task!.color;
+      titleController.text = widget.task!.title;
+      descriptionController.text = widget.task!.description;
+      dateController.text = widget.task!.date;
+      startTimeController.text = widget.task!.startTime;
+      endTimeController.text = widget.task!.endTime;
+    } else {
+      dateController.text = intl.DateFormat.yMMMMd().format(DateTime.now());
+      startTimeController.text =
+          intl.DateFormat('hh:mm a').format(DateTime.now());
+      endTimeController.text =
+          intl.DateFormat('hh:mm a').format(DateTime.now());
+    }
   }
 
   var formKey = GlobalKey<FormState>();
@@ -35,8 +47,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     return Scaffold(
       appBar: AppBar(
         foregroundColor: AppColors.primaryColor,
-        title: const Text(
-          'Add Task',
+        title: Text(
+          widget.task == null ? 'Add Task' : 'Update Task',
           style: TextStyles.title,
         ),
       ),
@@ -67,17 +79,33 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               String id =
                   titleController.text + DateTime.now().millisecond.toString();
               if (formKey.currentState!.validate()) {
-                LocalStorage.cachTask(
-                    key: id,
-                    value: TaskModel(
-                        id: id,
-                        title: titleController.text,
-                        description: descriptionController.text,
-                        date: dateController.text,
-                        startTime: startTimeController.text,
-                        endTime: endTimeController.text,
-                        color: selectedColor,
-                        isCompleted: false));
+                if (widget.task != null) {
+                  // update task with new data
+                  LocalStorage.cachTask(
+                      key: widget.task!.id,
+                      value: TaskModel(
+                          id: widget.task!.id,
+                          title: titleController.text,
+                          description: descriptionController.text,
+                          date: dateController.text,
+                          startTime: startTimeController.text,
+                          endTime: endTimeController.text,
+                          color: selectedColor,
+                          isCompleted: false));
+                } else {
+                  // add new task
+                  LocalStorage.cachTask(
+                      key: id,
+                      value: TaskModel(
+                          id: id,
+                          title: titleController.text,
+                          description: descriptionController.text,
+                          date: dateController.text,
+                          startTime: startTimeController.text,
+                          endTime: endTimeController.text,
+                          color: selectedColor,
+                          isCompleted: false));
+                }
                 Navigator.pop(context);
               }
             }),
