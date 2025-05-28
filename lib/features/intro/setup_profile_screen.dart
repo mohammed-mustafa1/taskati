@@ -11,6 +11,7 @@ import 'package:taskati/core/utils/text_styles.dart';
 import 'package:taskati/core/widgets/custom_text_field.dart';
 import 'package:taskati/core/widgets/upload_image_bottom_sheet.dart';
 import 'package:taskati/features/home/page/home_screen.dart';
+import 'package:taskati/generated/l10n.dart';
 
 class SetupProfileScreen extends StatefulWidget {
   const SetupProfileScreen({super.key, required this.isFirstTime});
@@ -24,7 +25,7 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
   bool editingName = false;
   bool isDarkMode = false;
   TextEditingController nameController = TextEditingController();
-
+  late String language;
   @override
   void initState() {
     super.initState();
@@ -35,6 +36,7 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
     isDarkMode = LocalStorage.getUserData(key: LocalStorage.theme) ==
         Brightness.dark.name;
     editingName = widget.isFirstTime;
+    language = LocalStorage.getUserData(key: LocalStorage.language) ?? 'en';
   }
 
   @override
@@ -42,6 +44,30 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
     return Scaffold(
       appBar: AppBar(
         actions: [
+          ToggleButtons(
+              onPressed: (index) {
+                index == 0 ? language = 'en' : language = 'ar';
+
+                LocalStorage.cachUserData(
+                    key: LocalStorage.language, value: language);
+                setState(() {});
+              },
+              constraints: const BoxConstraints(minHeight: 40, minWidth: 80),
+              borderRadius: BorderRadius.circular(16),
+              borderColor: AppColors.primaryColor,
+              selectedBorderColor: AppColors.primaryColor,
+              color: AppColors.primaryColor,
+              selectedColor: Colors.white,
+              fillColor: AppColors.primaryColor,
+              isSelected: [
+                language == 'en',
+                language == 'ar',
+              ],
+              children: [
+                Text('EN'),
+                Text('AR'),
+              ]),
+          SizedBox(width: 16),
           IconButton(
               onPressed: () {
                 setState(() {
@@ -60,6 +86,7 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
                     : Icons.dark_mode_outlined,
                 size: 32,
               )),
+          SizedBox(width: 16),
           TextButton(
             onPressed: () {
               if (imagePath != null && nameController.text.isNotEmpty) {
@@ -70,15 +97,15 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
                 context.pushReplacement(const HomeScreen());
               }
               if (imagePath == null) {
-                showErrorDialog(context, message: 'Please select an image');
+                showErrorDialog(context, message: S.of(context).image_error);
               }
               if (nameController.text.isEmpty) {
-                showErrorDialog(context, message: 'Please enter your name');
+                showErrorDialog(context, message: S.of(context).name_error);
               }
             },
             style:
                 TextButton.styleFrom(foregroundColor: AppColors.primaryColor),
-            child: Text('Done'),
+            child: Text(S.of(context).done_button, style: TextStyles.body),
           ),
         ],
       ),
@@ -122,12 +149,14 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
                       height: 30,
                       width: 30,
                       decoration: BoxDecoration(
-                        color: AppColors.primaryColor,
+                        color: Theme.of(context).brightness == Brightness.dark
+                            ? Colors.black
+                            : Colors.white,
                         shape: BoxShape.circle,
                       ),
                       child: Icon(
                         Icons.edit,
-                        color: Colors.white,
+                        color: AppColors.primaryColor,
                         size: 20,
                       ),
                     ),
@@ -157,7 +186,10 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
                       backgroundColor: AppColors.primaryColor,
                       radius: 24,
                       child: CircleAvatar(
-                        backgroundColor: Colors.white,
+                        backgroundColor:
+                            Theme.of(context).brightness == Brightness.dark
+                                ? Colors.black
+                                : Colors.white,
                         radius: 22,
                         child: Icon(
                           Icons.edit,
@@ -172,7 +204,8 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
             Visibility(
               visible: editingName,
               child: CustomTextField(
-                  controller: nameController, hintText: 'Enter Your Name'),
+                  controller: nameController,
+                  hintText: S.of(context).name_hint),
             ),
           ],
         ),

@@ -1,0 +1,22 @@
+{
+   "Hello": "Hello",
+   "Have_a_nice_day":"🌞 Have a nice day 🌞",
+   "today": "Today",
+   "add_task":"Add Task",
+   "update_task":"Update Task",
+   "title":"Title",
+   "title_hint":"Please enter title here",
+   "title_error":"Please enter some text",
+   "description":"Description",
+   "description_hint":"Please enter description here",
+   "description_error":"Please enter some text",
+   "date":"Date",
+   "start_time":"Start Time",
+   "end_time":"End Time",
+   "color":"Color",
+   "save_task_button":"Save",
+   "done_button":"Done",
+   "image_error":"Please select an image",
+   "name_error":"Please enter your name",
+   "name_hint":"Enter Your Name"
+}

@@ -5,6 +5,7 @@ class LocalStorage {
   static const String name = 'userName';
   static const String image = 'UserImage';
   static const String theme = 'theme';
+  static const String language = 'language';
   static late Box userBox;
   static late Box<TaskModel> taskBox;
   static init() {

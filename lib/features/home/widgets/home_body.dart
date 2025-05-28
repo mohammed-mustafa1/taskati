@@ -35,10 +35,13 @@ class _HomeBodyState extends State<HomeBody> {
           TodayHeader(),
           SizedBox(height: 16),
           DatePicker(
+            locale: intl.Intl.getCurrentLocale(),
+            directionality: intl.Intl.getCurrentLocale() == 'ar'
+                ? TextDirection.rtl
+                : TextDirection.ltr,
             monthTextStyle: TextStyles.body,
             dateTextStyle: TextStyles.body,
             dayTextStyle: TextStyles.body,
-            // height: 100,
             width: MediaQuery.sizeOf(context).width * .2,
             height: MediaQuery.sizeOf(context).height * 0.14,
             DateTime.now(),

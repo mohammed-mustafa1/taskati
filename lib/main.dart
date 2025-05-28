@@ -4,6 +4,8 @@ import 'package:taskati/core/models/task_model.dart';
 import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/core/utils/themes.dart';
 import 'package:taskati/features/intro/splash_screen.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'generated/l10n.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized;
@@ -29,7 +31,16 @@ class _TaskatiState extends State<Taskati> {
     return ValueListenableBuilder(
         valueListenable: LocalStorage.userBox.listenable(),
         builder: (context, value, child) {
+          var language = value.get(LocalStorage.language);
           return MaterialApp(
+            locale: Locale(language ?? 'en'),
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
             debugShowCheckedModeBanner: false,
             theme: value.get(LocalStorage.theme) == 'dark'
                 ? AppTheme.darkTheme

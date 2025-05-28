@@ -5,6 +5,7 @@ import 'package:taskati/core/function/navigations.dart';
 import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/core/utils/text_styles.dart';
 import 'package:taskati/features/intro/setup_profile_screen.dart';
+import 'package:taskati/generated/l10n.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({
@@ -21,11 +22,11 @@ class HomeHeader extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
-                  'Hello, ${LocalStorage.getUserData(key: LocalStorage.name)}',
+                  '${S.of(context).Hello}, ${LocalStorage.getUserData(key: LocalStorage.name)}',
                   style: TextStyles.title,
                 ),
                 Text(
-                  'Have a nice day',
+                  S.of(context).Have_a_nice_day,
                   style: TextStyles.body,
                 ),
               ]),

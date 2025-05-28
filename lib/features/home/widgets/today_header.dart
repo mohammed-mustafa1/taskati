@@ -4,6 +4,7 @@ import 'package:taskati/core/function/navigations.dart';
 import 'package:taskati/core/utils/text_styles.dart';
 import 'package:taskati/core/widgets/main_button.dart';
 import 'package:taskati/features/add_task/add_task_screen.dart';
+import 'package:taskati/generated/l10n.dart';
 
 class TodayHeader extends StatelessWidget {
   const TodayHeader({
@@ -24,14 +25,14 @@ class TodayHeader extends StatelessWidget {
                   style: TextStyles.body.copyWith(fontWeight: FontWeight.bold),
                 ),
                 Text(
-                  'Today',
+                  S.of(context).today,
                   style: TextStyles.body.copyWith(fontWeight: FontWeight.bold),
                 ),
               ]),
         ),
         MainButton(
             width: MediaQuery.sizeOf(context).width * 0.32,
-            text: 'Add Task',
+            text: S.of(context).add_task,
             onPress: () {
               context.push(const AddTaskScreen(task: null));
             }),

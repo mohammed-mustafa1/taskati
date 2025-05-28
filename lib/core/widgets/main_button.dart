@@ -2,17 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:taskati/core/utils/colors.dart';
 
 class MainButton extends StatelessWidget {
-  const MainButton({
-    super.key,
-    required this.text,
-    required this.onPress,
-    this.height,
-    this.width,
-  });
+  const MainButton(
+      {super.key,
+      required this.text,
+      required this.onPress,
+      this.height,
+      this.width,
+      this.color});
   final String text;
   final Function()? onPress;
   final double? height;
   final double? width;
+  final Color? color;
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -21,7 +22,7 @@ class MainButton extends StatelessWidget {
       child: ElevatedButton(
         onPressed: onPress,
         style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primaryColor,
+            backgroundColor: color ?? AppColors.primaryColor,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             )),

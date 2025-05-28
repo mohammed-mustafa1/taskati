@@ -59,7 +59,7 @@ class TaskListBuilder extends StatelessWidget {
         color: Colors.red,
         borderRadius: BorderRadius.circular(16),
       ),
-      alignment: Alignment.centerRight,
+      alignment: AlignmentDirectional.centerEnd,
       child: const Icon(Icons.delete, color: Colors.white, size: 32),
     );
   }
@@ -72,7 +72,7 @@ class TaskListBuilder extends StatelessWidget {
         color: Colors.green,
         borderRadius: BorderRadius.circular(16),
       ),
-      alignment: Alignment.centerLeft,
+      alignment: AlignmentDirectional.centerStart,
       child: const Icon(Icons.done, color: Colors.white, size: 32),
     );
   }

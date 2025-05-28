@@ -5,6 +5,7 @@ import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/core/utils/text_styles.dart';
 import 'package:taskati/core/widgets/main_button.dart';
+import 'package:taskati/generated/l10n.dart';
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key, @required this.task});
@@ -48,7 +49,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       appBar: AppBar(
         foregroundColor: AppColors.primaryColor,
         title: Text(
-          widget.task == null ? 'Add Task' : 'Update Task',
+          widget.task == null
+              ? S.of(context).add_task
+              : S.of(context).update_task,
           style: TextStyles.title,
         ),
       ),
@@ -74,7 +77,12 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       bottomNavigationBar: Padding(
         padding: const EdgeInsets.all(16),
         child: MainButton(
-            text: 'create task',
+            text: S.of(context).save_task_button,
+            color: selectedColor == 0
+                ? AppColors.primaryColor
+                : selectedColor == 1
+                    ? AppColors.red
+                    : AppColors.orange,
             onPress: () {
               String id =
                   titleController.text + DateTime.now().millisecond.toString();
@@ -117,7 +125,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Color',
+        Text(S.of(context).color,
             style: TextStyles.body.copyWith(fontWeight: FontWeight.bold)),
         SizedBox(height: 8),
         Row(
@@ -154,19 +162,19 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Note',
+          S.of(context).description,
           style: TextStyles.body.copyWith(fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 8),
         TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter some text';
+              return S.of(context).description_error;
             }
             return null;
           },
           controller: descriptionController,
-          decoration: InputDecoration(hintText: 'Enter note here'),
+          decoration: InputDecoration(hintText: S.of(context).description_hint),
           maxLines: 4,
         ),
       ],
@@ -178,19 +186,19 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Title',
+          S.of(context).title,
           style: TextStyles.body.copyWith(fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 8),
         TextFormField(
           validator: (value) {
             if (value == null || value.isEmpty) {
-              return 'Please enter some text';
+              return S.of(context).title_error;
             }
             return null;
           },
           controller: titleController,
-          decoration: InputDecoration(hintText: 'Enter title here'),
+          decoration: InputDecoration(hintText: S.of(context).title_hint),
         ),
       ],
     );
@@ -201,7 +209,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          'Date',
+          S.of(context).date,
           style: TextStyles.body.copyWith(fontWeight: FontWeight.bold),
         ),
         SizedBox(height: 8),
@@ -238,7 +246,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'Start Time',
+            S.of(context).start_time,
             style: TextStyles.body.copyWith(fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8),
@@ -265,9 +273,10 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   Expanded endTime() {
     return Expanded(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            'End Time',
+            S.of(context).end_time,
             style: TextStyles.body.copyWith(fontWeight: FontWeight.bold),
           ),
           SizedBox(height: 8),
