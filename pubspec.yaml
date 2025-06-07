@@ -43,6 +43,7 @@ dependencies:
   date_picker_timeline: ^1.2.6
   flutter_localizations:
       sdk: flutter
+  flutter_native_splash: ^2.4.6
 
 
 dev_dependencies:
@@ -104,4 +105,13 @@ flutter:
   # see https://flutter.dev/to/font-from-package
 flutter_intl:
   enabled: true
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/images/app_icon.png
+  android_gravity: fill
+  android_12:
+      image: assets/images/app_icon_android_12.png
+      color: "#FFFFFF"
+
 
