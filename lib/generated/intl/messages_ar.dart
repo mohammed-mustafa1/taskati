@@ -47,7 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("من فضلك اكتب عنوان ⚠️"),
         "title_hint":
             MessageLookupByLibrary.simpleMessage("اكتب عنوان المهمة هنا"),
-        "today": MessageLookupByLibrary.simpleMessage("النهارده 📅"),
+        "today": MessageLookupByLibrary.simpleMessage("النهارده"),
         "update_task": MessageLookupByLibrary.simpleMessage("تعديل المهمة")
       };
 }
