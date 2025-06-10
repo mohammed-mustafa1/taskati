@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:taskati/core/models/task_model.dart';
+import 'package:taskati/core/services/local_notification.dart';
 import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/core/utils/themes.dart';
 import 'package:taskati/features/intro/splash_screen.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:timezone/data/latest.dart' as tz;
 import 'generated/l10n.dart';
 
 void main() async {
@@ -13,8 +15,9 @@ void main() async {
   await Hive.openBox('user');
   Hive.registerAdapter<TaskModel>(TaskModelAdapter());
   await Hive.openBox<TaskModel>('task');
-
   LocalStorage.init();
+  tz.initializeTimeZones();
+  LocalNotificationService.init();
   runApp(Taskati());
 }
 

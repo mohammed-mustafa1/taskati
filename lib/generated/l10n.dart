@@ -249,6 +249,26 @@ class S {
       args: [],
     );
   }
+
+  /// `start time must be before end time`
+  String get time_error {
+    return Intl.message(
+      'start time must be before end time',
+      name: 'time_error',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Start time must be in the future`
+  String get time_in_the_past {
+    return Intl.message(
+      'Start time must be in the future',
+      name: 'time_in_the_past',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

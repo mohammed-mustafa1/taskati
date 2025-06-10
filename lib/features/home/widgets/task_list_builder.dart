@@ -3,6 +3,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:lottie/lottie.dart';
 import 'package:taskati/core/function/navigations.dart';
 import 'package:taskati/core/models/task_model.dart';
+import 'package:taskati/core/services/local_notification.dart';
 import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/features/add_task/add_task_screen.dart';
 import 'package:taskati/features/home/widgets/task_card.dart';
@@ -12,7 +13,7 @@ class TaskListBuilder extends StatelessWidget {
     super.key,
     required this.date,
   });
-  final String date;
+  final DateTime date;
   @override
   Widget build(BuildContext context) {
     return Expanded(
@@ -20,7 +21,10 @@ class TaskListBuilder extends StatelessWidget {
         valueListenable: LocalStorage.taskBox.listenable(),
         builder: (context, box, child) {
           List<TaskModel> tasks = box.values.toList();
-          tasks = tasks.where((task) => task.date == date).toList();
+          tasks = tasks
+              .where((task) =>
+                  task.date.month == date.month && task.date.day == date.day)
+              .toList();
 
           return tasks.isEmpty
               ? Center(child: Lottie.asset('assets/images/empty.json'))
@@ -33,9 +37,18 @@ class TaskListBuilder extends StatelessWidget {
                         onDismissed: (direction) {
                           if (direction == DismissDirection.endToStart) {
                             box.delete(tasks[index].id);
+                            LocalNotificationService.cancelNotifications(
+                                id: tasks[index].id.hashCode);
+                            LocalNotificationService.cancelNotifications(
+                                id: tasks[index].id.hashCode + 1);
                           } else {
                             box.put(tasks[index].id,
                                 tasks[index].copyWith(isCompleted: true));
+
+                            LocalNotificationService.cancelNotifications(
+                                id: tasks[index].id.hashCode);
+                            LocalNotificationService.cancelNotifications(
+                                id: tasks[index].id.hashCode + 1);
                           }
                         },
                         key: UniqueKey(),

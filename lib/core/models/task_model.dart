@@ -10,11 +10,11 @@ class TaskModel {
   @HiveField(2)
   final String description;
   @HiveField(3)
-  final String date;
+  final DateTime date;
   @HiveField(4)
-  final String startTime;
+  final DateTime startTime;
   @HiveField(5)
-  final String endTime;
+  final DateTime endTime;
   @HiveField(6)
   final int color;
   @HiveField(7)
@@ -34,9 +34,9 @@ class TaskModel {
     String? id,
     String? title,
     String? description,
-    String? date,
-    String? startTime,
-    String? endTime,
+    DateTime? date,
+    DateTime? startTime,
+    DateTime? endTime,
     int? color,
     bool? isCompleted,
   }) =>

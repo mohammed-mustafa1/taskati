@@ -42,6 +42,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "name_hint": MessageLookupByLibrary.simpleMessage("Enter Your Name"),
         "save_task_button": MessageLookupByLibrary.simpleMessage("Save"),
         "start_time": MessageLookupByLibrary.simpleMessage("Start Time"),
+        "time_error": MessageLookupByLibrary.simpleMessage(
+            "start time must be before end time"),
+        "time_in_the_past": MessageLookupByLibrary.simpleMessage(
+            "Start time must be in the future"),
         "title": MessageLookupByLibrary.simpleMessage("Title"),
         "title_error":
             MessageLookupByLibrary.simpleMessage("Please enter some text"),

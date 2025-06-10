@@ -42,6 +42,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "name_hint": MessageLookupByLibrary.simpleMessage("اكتب اسمك هنا"),
         "save_task_button": MessageLookupByLibrary.simpleMessage("حفظ"),
         "start_time": MessageLookupByLibrary.simpleMessage("وقت البداية"),
+        "time_error": MessageLookupByLibrary.simpleMessage(
+            "وقت البدء يجب ان يكون قبل وقت النهاية"),
+        "time_in_the_past": MessageLookupByLibrary.simpleMessage(
+            "وقت البدء يجب ان يكون في المستقبل"),
         "title": MessageLookupByLibrary.simpleMessage("العنوان"),
         "title_error":
             MessageLookupByLibrary.simpleMessage("من فضلك اكتب عنوان ⚠️"),

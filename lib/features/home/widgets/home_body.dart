@@ -15,13 +15,13 @@ class HomeBody extends StatefulWidget {
 }
 
 class _HomeBodyState extends State<HomeBody> {
-  String selectedDate = '';
+  DateTime? selectedDate;
 
   @override
   void initState() {
     super.initState();
 
-    selectedDate = intl.DateFormat.yMMMMd().format(DateTime.now());
+    selectedDate = DateTime.now();
   }
 
   @override
@@ -50,13 +50,13 @@ class _HomeBodyState extends State<HomeBody> {
             selectedTextColor: Colors.white,
             onDateChange: (date) {
               setState(() {
-                selectedDate = intl.DateFormat.yMMMMd().format(date);
+                selectedDate = date;
               });
             },
           ),
           SizedBox(height: 16),
           TaskListBuilder(
-            date: selectedDate,
+            date: selectedDate!,
           )
         ],
       ),

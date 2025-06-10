@@ -18,5 +18,7 @@
    "done_button":"Done",
    "image_error":"Please select an image",
    "name_error":"Please enter your name",
-   "name_hint":"Enter Your Name"
+   "name_hint":"Enter Your Name",
+   "time_error":"start time must be before end time",
+   "time_in_the_past":"Start time must be in the future"
 }

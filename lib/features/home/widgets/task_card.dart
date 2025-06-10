@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart' as intl;
 import 'package:taskati/core/models/task_model.dart';
 import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/core/utils/text_styles.dart';
@@ -45,7 +46,7 @@ class TaskCard extends StatelessWidget {
                     ),
                     SizedBox(width: 8),
                     Text(
-                      '${task.startTime} - ${task.endTime}',
+                      '${intl.DateFormat.jm().format(task.startTime)} - ${intl.DateFormat.jm().format(task.endTime)}',
                       style: TextStyles.small.copyWith(color: Colors.white),
                     ),
                   ],

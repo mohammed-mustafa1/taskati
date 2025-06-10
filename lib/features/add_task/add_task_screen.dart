@@ -1,11 +1,16 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
+import 'package:taskati/core/function/dialogs.dart';
 import 'package:taskati/core/models/task_model.dart';
 import 'package:taskati/core/services/local_storage.dart';
+import 'package:taskati/core/services/local_notification.dart';
 import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/core/utils/text_styles.dart';
 import 'package:taskati/core/widgets/main_button.dart';
 import 'package:taskati/generated/l10n.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class AddTaskScreen extends StatefulWidget {
   const AddTaskScreen({super.key, @required this.task});
@@ -22,6 +27,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   var dateController = TextEditingController();
   var startTimeController = TextEditingController();
   var endTimeController = TextEditingController();
+  DateTime tempDate = DateTime.now();
+  DateTime tempStartTime = DateTime.now();
+  DateTime tempEndTime = DateTime.now();
   @override
   void initState() {
     super.initState();
@@ -30,15 +38,18 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
       selectedColor = widget.task!.color;
       titleController.text = widget.task!.title;
       descriptionController.text = widget.task!.description;
-      dateController.text = widget.task!.date;
-      startTimeController.text = widget.task!.startTime;
-      endTimeController.text = widget.task!.endTime;
+
+      tempDate = widget.task!.date;
+      tempStartTime = widget.task!.startTime;
+      tempEndTime = widget.task!.endTime;
+
+      dateController.text = intl.DateFormat.yMMMMd().format(tempDate);
+      startTimeController.text = intl.DateFormat.jm().format(tempStartTime);
+      endTimeController.text = intl.DateFormat.jm().format(tempEndTime);
     } else {
-      dateController.text = intl.DateFormat.yMMMMd().format(DateTime.now());
-      startTimeController.text =
-          intl.DateFormat('hh:mm a').format(DateTime.now());
-      endTimeController.text =
-          intl.DateFormat('hh:mm a').format(DateTime.now());
+      dateController.text = intl.DateFormat.yMMMMd().format(tempDate);
+      startTimeController.text = intl.DateFormat.jm().format(tempStartTime);
+      endTimeController.text = intl.DateFormat.jm().format(tempEndTime);
     }
   }
 
@@ -69,7 +80,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               SizedBox(height: 16),
               Row(children: [startTime(), SizedBox(width: 16), endTime()]),
               SizedBox(height: 16),
-              color()
+              color(),
             ]),
           ),
         ),
@@ -83,10 +94,35 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                 : selectedColor == 1
                     ? AppColors.red
                     : AppColors.orange,
-            onPress: () {
+            onPress: () async {
               String id =
                   titleController.text + DateTime.now().millisecond.toString();
               if (formKey.currentState!.validate()) {
+                var scheduledStartDate = tz.TZDateTime(
+                  tz.local,
+                  tempDate.year,
+                  tempDate.month,
+                  tempDate.day,
+                  tempStartTime.hour,
+                  tempStartTime.minute,
+                );
+                var scheduledEndtDate = tz.TZDateTime(
+                  tz.local,
+                  tempDate.year,
+                  tempDate.month,
+                  tempDate.day,
+                  tempEndTime.hour,
+                  tempEndTime.minute,
+                );
+                if (scheduledStartDate.isBefore(DateTime.now())) {
+                  showErrorDialog(context,
+                      message: S.of(context).time_in_the_past);
+                  return;
+                } else if (scheduledEndtDate == scheduledStartDate ||
+                    scheduledEndtDate.isBefore(scheduledStartDate)) {
+                  showErrorDialog(context, message: S.of(context).time_error);
+                  return;
+                }
                 if (widget.task != null) {
                   // update task with new data
                   LocalStorage.cachTask(
@@ -95,9 +131,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           id: widget.task!.id,
                           title: titleController.text,
                           description: descriptionController.text,
-                          date: dateController.text,
-                          startTime: startTimeController.text,
-                          endTime: endTimeController.text,
+                          date: tempDate,
+                          startTime: tempStartTime,
+                          endTime: tempEndTime,
                           color: selectedColor,
                           isCompleted: false));
                 } else {
@@ -108,12 +144,28 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           id: id,
                           title: titleController.text,
                           description: descriptionController.text,
-                          date: dateController.text,
-                          startTime: startTimeController.text,
-                          endTime: endTimeController.text,
+                          date: tempDate,
+                          startTime: tempStartTime,
+                          endTime: tempEndTime,
                           color: selectedColor,
                           isCompleted: false));
                 }
+
+                await LocalNotificationService.showScheduledNotification(
+                    id: widget.task != null
+                        ? widget.task!.id.hashCode
+                        : id.hashCode,
+                    title: titleController.text,
+                    body: descriptionController.text,
+                    scheduledDate: scheduledStartDate);
+
+                await LocalNotificationService.showScheduledNotification(
+                    id: widget.task != null
+                        ? widget.task!.id.hashCode
+                        : id.hashCode + 1,
+                    title: titleController.text,
+                    body: descriptionController.text,
+                    scheduledDate: scheduledEndtDate);
                 Navigator.pop(context);
               }
             }),
@@ -236,6 +288,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         .then((date) {
       if (date != null) {
         dateController.text = intl.DateFormat.yMMMMd().format(date);
+        tempDate = date;
       }
     });
   }
@@ -256,7 +309,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               showTimePicker(context: context, initialTime: TimeOfDay.now())
                   .then((time) {
                 if (time != null) {
-                  startTimeController.text = time.format(context);
+                  tempStartTime = DateTime(
+                    tempDate.year,
+                    tempDate.month,
+                    tempDate.day,
+                    time.hour,
+                    time.minute,
+                  );
+                  startTimeController.text =
+                      intl.DateFormat.jm().format(tempStartTime);
                 }
               });
             },
@@ -286,7 +347,15 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
               showTimePicker(context: context, initialTime: TimeOfDay.now())
                   .then((time) {
                 if (time != null) {
-                  endTimeController.text = time.format(context);
+                  tempEndTime = DateTime(
+                    tempDate.year,
+                    tempDate.month,
+                    tempDate.day,
+                    time.hour,
+                    time.minute,
+                  );
+                  endTimeController.text =
+                      intl.DateFormat.jm().format(tempEndTime);
                 }
               });
             },
