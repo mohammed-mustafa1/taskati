@@ -35,13 +35,19 @@ class MessageLookup extends MessageLookupByLibrary {
             "Please enter description here"),
         "done_button": MessageLookupByLibrary.simpleMessage("Done"),
         "end_time": MessageLookupByLibrary.simpleMessage("End Time"),
+        "end_time_notification_title": MessageLookupByLibrary.simpleMessage(
+            "Great job! The task is done "),
         "image_error":
             MessageLookupByLibrary.simpleMessage("Please select an image"),
+        "language": MessageLookupByLibrary.simpleMessage("Language"),
         "name_error":
             MessageLookupByLibrary.simpleMessage("Please enter your name"),
         "name_hint": MessageLookupByLibrary.simpleMessage("Enter Your Name"),
+        "night_mode": MessageLookupByLibrary.simpleMessage("Night Mode"),
         "save_task_button": MessageLookupByLibrary.simpleMessage("Save"),
         "start_time": MessageLookupByLibrary.simpleMessage("Start Time"),
+        "start_time_notification_title":
+            MessageLookupByLibrary.simpleMessage("Task is waiting for you"),
         "time_error": MessageLookupByLibrary.simpleMessage(
             "start time must be before end time"),
         "time_in_the_past": MessageLookupByLibrary.simpleMessage(
@@ -52,6 +58,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "title_hint":
             MessageLookupByLibrary.simpleMessage("Please enter title here"),
         "today": MessageLookupByLibrary.simpleMessage("Today"),
-        "update_task": MessageLookupByLibrary.simpleMessage("Update Task")
+        "update_task": MessageLookupByLibrary.simpleMessage("Update Task"),
+        "user_profile_title":
+            MessageLookupByLibrary.simpleMessage("User Profile")
       };
 }

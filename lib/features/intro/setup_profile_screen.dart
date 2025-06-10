@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
@@ -9,6 +10,7 @@ import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/core/utils/text_styles.dart';
 import 'package:taskati/core/widgets/custom_text_field.dart';
+import 'package:taskati/core/widgets/main_button.dart';
 import 'package:taskati/core/widgets/upload_image_bottom_sheet.dart';
 import 'package:taskati/features/home/page/home_screen.dart';
 import 'package:taskati/generated/l10n.dart';
@@ -43,170 +45,162 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        title: Text(S.of(context).user_profile_title, style: TextStyles.title),
+        centerTitle: true,
         actions: [
-          ToggleButtons(
-              onPressed: (index) {
-                index == 0 ? language = 'en' : language = 'ar';
-
-                LocalStorage.cachUserData(
-                    key: LocalStorage.language, value: language);
-                setState(() {});
-              },
-              constraints: const BoxConstraints(minHeight: 40, minWidth: 80),
-              borderRadius: BorderRadius.circular(16),
-              borderColor: AppColors.primaryColor,
-              selectedBorderColor: AppColors.primaryColor,
-              color: AppColors.primaryColor,
-              selectedColor: Colors.white,
-              fillColor: AppColors.primaryColor,
-              isSelected: [
-                language == 'en',
-                language == 'ar',
-              ],
-              children: [
-                Text('EN'),
-                Text('AR'),
-              ]),
-          SizedBox(width: 16),
-          IconButton(
-              onPressed: () {
-                setState(() {
-                  isDarkMode = !isDarkMode;
-                  LocalStorage.cachUserData(
-                    key: LocalStorage.theme,
-                    value: isDarkMode == true
-                        ? Brightness.dark.name
-                        : Brightness.light.name,
-                  );
-                });
-              },
-              icon: Icon(
-                isDarkMode == true
-                    ? Icons.light_mode_outlined
-                    : Icons.dark_mode_outlined,
-                size: 32,
-              )),
-          SizedBox(width: 16),
-          TextButton(
-            onPressed: () {
-              if (imagePath != null && nameController.text.isNotEmpty) {
-                LocalStorage.cachUserData(
-                    key: LocalStorage.image, value: imagePath!);
-                LocalStorage.cachUserData(
-                    key: LocalStorage.name, value: nameController.text);
-                context.pushReplacement(const HomeScreen());
-              }
-              if (imagePath == null) {
-                showErrorDialog(context, message: S.of(context).image_error);
-              }
-              if (nameController.text.isEmpty) {
-                showErrorDialog(context, message: S.of(context).name_error);
-              }
-            },
-            style:
-                TextButton.styleFrom(foregroundColor: AppColors.primaryColor),
-            child: Text(S.of(context).done_button, style: TextStyles.body),
-          ),
+          // SizedBox(width: 16),
         ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            GestureDetector(
-              onTap: () {
-                showUploadBottomSheet(
-                  context,
-                  onPressCamera: () {
-                    uploadImage(isCamera: true);
-                  },
-                  onPressGallery: () {
-                    uploadImage(isCamera: false);
-                  },
-                );
-              },
-              child: Stack(
+            Expanded(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundColor: AppColors.grey,
-                    child: imagePath == null
-                        ? SvgPicture.asset(
-                            AppImages.person,
-                            height: 200,
-                            width: 200,
-                          )
-                        : CircleAvatar(
-                            radius: 60,
-                            backgroundImage:
-                                Image.file(File(imagePath!)).image),
-                  ),
-                  Positioned(
-                    bottom: 0,
-                    right: 0,
-                    child: Container(
-                      height: 30,
-                      width: 30,
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).brightness == Brightness.dark
-                            ? Colors.black
-                            : Colors.white,
-                        shape: BoxShape.circle,
-                      ),
-                      child: Icon(
-                        Icons.edit,
-                        color: AppColors.primaryColor,
-                        size: 20,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            SizedBox(height: 24),
-            Divider(
-                thickness: 1, color: AppColors.grey, endIndent: 20, indent: 20),
-            SizedBox(height: 24),
-            Visibility(
-              visible: !editingName,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    LocalStorage.getUserData(key: LocalStorage.name) ?? '',
-                    style: TextStyles.title,
-                  ),
                   GestureDetector(
                     onTap: () {
-                      editingName = true;
-                      setState(() {});
+                      showUploadBottomSheet(
+                        context,
+                        onPressCamera: () {
+                          uploadImage(isCamera: true);
+                        },
+                        onPressGallery: () {
+                          uploadImage(isCamera: false);
+                        },
+                      );
                     },
-                    child: CircleAvatar(
-                      backgroundColor: AppColors.primaryColor,
-                      radius: 24,
-                      child: CircleAvatar(
-                        backgroundColor:
-                            Theme.of(context).brightness == Brightness.dark
-                                ? Colors.black
-                                : Colors.white,
-                        radius: 22,
-                        child: Icon(
-                          Icons.edit,
-                          color: AppColors.primaryColor,
+                    child: Stack(
+                      children: [
+                        CircleAvatar(
+                          radius: 64,
+                          backgroundColor: AppColors.primaryColor,
+                          child: CircleAvatar(
+                            radius: 60,
+                            backgroundColor: AppColors.grey,
+                            child: imagePath == null
+                                ? SvgPicture.asset(
+                                    AppImages.person,
+                                    height: 200,
+                                    width: 200,
+                                  )
+                                : CircleAvatar(
+                                    radius: 60,
+                                    backgroundImage:
+                                        Image.file(File(imagePath!)).image),
+                          ),
                         ),
-                      ),
+                        Positioned(
+                          bottom: 0,
+                          right: 0,
+                          child: Container(
+                            height: 30,
+                            width: 30,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).brightness ==
+                                      Brightness.dark
+                                  ? Colors.black
+                                  : Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              Icons.edit,
+                              color: AppColors.primaryColor,
+                              size: 20,
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  )
+                  ),
+                  SizedBox(height: 24),
+                  Divider(thickness: 1, color: AppColors.grey),
+                  SizedBox(height: 24),
+                  CustomTextField(
+                    controller: nameController,
+                    hintText: S.of(context).name_hint,
+                  ),
+                  Divider(height: 32, thickness: 1, color: AppColors.grey),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        S.of(context).night_mode,
+                        style: TextStyles.body
+                            .copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      Switch(
+                          activeTrackColor: AppColors.primaryColor,
+                          value: isDarkMode,
+                          onChanged: (value) {
+                            setState(() {
+                              isDarkMode = !isDarkMode;
+                              LocalStorage.cachUserData(
+                                key: LocalStorage.theme,
+                                value: isDarkMode == true
+                                    ? Brightness.dark.name
+                                    : Brightness.light.name,
+                              );
+                            });
+                          }),
+                    ],
+                  ),
+                  Divider(height: 32, thickness: 1, color: AppColors.grey),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        S.of(context).language,
+                        style: TextStyles.body
+                            .copyWith(fontWeight: FontWeight.w600),
+                      ),
+                      ToggleButtons(
+                          onPressed: (index) {
+                            index == 0 ? language = 'en' : language = 'ar';
+                            setState(() {});
+                          },
+                          constraints:
+                              const BoxConstraints(minHeight: 40, minWidth: 80),
+                          borderRadius: BorderRadius.circular(16),
+                          borderColor: AppColors.primaryColor,
+                          selectedBorderColor: AppColors.primaryColor,
+                          color: AppColors.primaryColor,
+                          selectedColor: Colors.white,
+                          fillColor: AppColors.primaryColor,
+                          isSelected: [
+                            language == 'en',
+                            language == 'ar',
+                          ],
+                          children: [
+                            Text('EN'),
+                            Text('AR'),
+                          ]),
+                    ],
+                  ),
                 ],
               ),
             ),
-            Visibility(
-              visible: editingName,
-              child: CustomTextField(
-                  controller: nameController,
-                  hintText: S.of(context).name_hint),
-            ),
+            MainButton(
+              text: S.of(context).save_task_button,
+              onPress: () {
+                if (imagePath != null && nameController.text.isNotEmpty) {
+                  LocalStorage.cachUserData(
+                      key: LocalStorage.image, value: imagePath!);
+                  LocalStorage.cachUserData(
+                      key: LocalStorage.name, value: nameController.text);
+                  context.pushReplacement(const HomeScreen());
+                }
+                if (imagePath == null) {
+                  showErrorDialog(context, message: S.of(context).image_error);
+                }
+                if (nameController.text.isEmpty) {
+                  showErrorDialog(context, message: S.of(context).name_error);
+                }
+                LocalStorage.cachUserData(
+                    key: LocalStorage.language, value: language);
+              },
+            )
           ],
         ),
       ),
