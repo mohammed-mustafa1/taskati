@@ -15,7 +15,6 @@ class LocalNotificationService {
   }
 
   static Future<void> init() async {
-    await requestNotificationPermission();
     final String currentTimeZone = await FlutterTimezone.getLocalTimezone();
     tz.setLocalLocation(tz.getLocation(currentTimeZone));
     final InitializationSettings settings = InitializationSettings(

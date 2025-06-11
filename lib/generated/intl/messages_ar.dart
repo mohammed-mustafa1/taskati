@@ -23,35 +23,42 @@ class MessageLookup extends MessageLookupByLibrary {
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "Have_a_nice_day":
-            MessageLookupByLibrary.simpleMessage("يومك جميل إن شاء الله 🌞"),
+            MessageLookupByLibrary.simpleMessage("🌞 يومك جميل 🌞"),
         "Hello": MessageLookupByLibrary.simpleMessage("أهلاً بيك"),
         "add_task": MessageLookupByLibrary.simpleMessage("أضف مهمة"),
         "color": MessageLookupByLibrary.simpleMessage("اللون"),
         "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
         "description": MessageLookupByLibrary.simpleMessage("الوصف"),
         "description_error":
-            MessageLookupByLibrary.simpleMessage("من فضلك اكتب وصف ⚠️"),
+            MessageLookupByLibrary.simpleMessage("من فضلك اكتب وصف"),
         "description_hint":
             MessageLookupByLibrary.simpleMessage("اكتب شوية تفاصيل عن المهمة"),
         "done_button": MessageLookupByLibrary.simpleMessage("تمّام"),
         "end_time": MessageLookupByLibrary.simpleMessage("وقت النهاية"),
+        "end_time_notification_title":
+            MessageLookupByLibrary.simpleMessage("عاش يا بطل، المهمة خلصت!"),
         "image_error":
-            MessageLookupByLibrary.simpleMessage("من فضلك اختار صورة ⚠️"),
-        "name_error":
-            MessageLookupByLibrary.simpleMessage("من فضلك اكتب اسمك ⚠️"),
+            MessageLookupByLibrary.simpleMessage("من فضلك اختار صورة"),
+        "language": MessageLookupByLibrary.simpleMessage("اللغة"),
+        "name_error": MessageLookupByLibrary.simpleMessage("من فضلك اكتب اسمك"),
         "name_hint": MessageLookupByLibrary.simpleMessage("اكتب اسمك هنا"),
+        "night_mode": MessageLookupByLibrary.simpleMessage("الوضع الليلي"),
         "save_task_button": MessageLookupByLibrary.simpleMessage("حفظ"),
         "start_time": MessageLookupByLibrary.simpleMessage("وقت البداية"),
+        "start_time_notification_title":
+            MessageLookupByLibrary.simpleMessage("مهمة لطيفة بانتظارك"),
         "time_error": MessageLookupByLibrary.simpleMessage(
             "وقت البدء يجب ان يكون قبل وقت النهاية"),
         "time_in_the_past": MessageLookupByLibrary.simpleMessage(
             "وقت البدء يجب ان يكون في المستقبل"),
         "title": MessageLookupByLibrary.simpleMessage("العنوان"),
         "title_error":
-            MessageLookupByLibrary.simpleMessage("من فضلك اكتب عنوان ⚠️"),
+            MessageLookupByLibrary.simpleMessage("من فضلك اكتب عنوان"),
         "title_hint":
             MessageLookupByLibrary.simpleMessage("اكتب عنوان المهمة هنا"),
         "today": MessageLookupByLibrary.simpleMessage("النهارده"),
-        "update_task": MessageLookupByLibrary.simpleMessage("تعديل المهمة")
+        "update_task": MessageLookupByLibrary.simpleMessage("تعديل المهمة"),
+        "user_profile_title":
+            MessageLookupByLibrary.simpleMessage("ملف المستخدم")
       };
 }

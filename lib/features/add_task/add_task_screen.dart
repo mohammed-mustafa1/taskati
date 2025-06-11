@@ -33,6 +33,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   void initState() {
     super.initState();
+    LocalNotificationService.requestNotificationPermission();
 
     if (widget.task != null) {
       selectedColor = widget.task!.color;
@@ -89,11 +90,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         padding: const EdgeInsets.all(16),
         child: MainButton(
             text: S.of(context).save_task_button,
-            color: selectedColor == 0
-                ? AppColors.primaryColor
-                : selectedColor == 1
-                    ? AppColors.red
-                    : AppColors.orange,
+            color: Colors.primaries[selectedColor],
             onPress: () async {
               String id =
                   titleController.text + DateTime.now().millisecond.toString();
@@ -136,6 +133,22 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           endTime: tempEndTime,
                           color: selectedColor,
                           isCompleted: false));
+                  LocalNotificationService.cancelNotifications(
+                      id: widget.task!.id.hashCode);
+                  LocalNotificationService.cancelNotifications(
+                      id: widget.task!.id.hashCode + 1);
+
+                  await LocalNotificationService.showScheduledNotification(
+                      id: widget.task!.id.hashCode,
+                      title: S.of(context).start_time_notification_title,
+                      body: titleController.text,
+                      scheduledDate: scheduledStartDate);
+
+                  await LocalNotificationService.showScheduledNotification(
+                      id: widget.task!.id.hashCode + 1,
+                      title: S.of(context).end_time_notification_title,
+                      body: titleController.text,
+                      scheduledDate: scheduledEndtDate);
                 } else {
                   // add new task
                   LocalStorage.cachTask(
@@ -149,23 +162,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           endTime: tempEndTime,
                           color: selectedColor,
                           isCompleted: false));
+
+                  await LocalNotificationService.showScheduledNotification(
+                      id: id.hashCode,
+                      title: S.of(context).start_time_notification_title,
+                      body: titleController.text,
+                      scheduledDate: scheduledStartDate);
+
+                  await LocalNotificationService.showScheduledNotification(
+                      id: id.hashCode + 1,
+                      title: S.of(context).end_time_notification_title,
+                      body: titleController.text,
+                      scheduledDate: scheduledEndtDate);
                 }
 
-                await LocalNotificationService.showScheduledNotification(
-                    id: widget.task != null
-                        ? widget.task!.id.hashCode
-                        : id.hashCode,
-                    title: titleController.text,
-                    body: descriptionController.text,
-                    scheduledDate: scheduledStartDate);
-
-                await LocalNotificationService.showScheduledNotification(
-                    id: widget.task != null
-                        ? widget.task!.id.hashCode
-                        : id.hashCode + 1,
-                    title: titleController.text,
-                    body: descriptionController.text,
-                    scheduledDate: scheduledEndtDate);
                 Navigator.pop(context);
               }
             }),
@@ -180,31 +190,34 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
         Text(S.of(context).color,
             style: TextStyles.body.copyWith(fontWeight: FontWeight.bold)),
         SizedBox(height: 8),
-        Row(
-            children: List.generate(
-                3,
-                (index) => GestureDetector(
-                      onTap: () {
-                        selectedColor = index;
-                        setState(() {});
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4.0),
-                        child: CircleAvatar(
-                            radius: 25,
-                            backgroundColor: index == 0
-                                ? AppColors.primaryColor
-                                : index == 1
-                                    ? AppColors.red
-                                    : AppColors.orange,
-                            child: selectedColor == index
-                                ? Icon(
-                                    Icons.check,
-                                    color: Colors.white,
-                                  )
-                                : null),
-                      ),
-                    ))),
+        SizedBox(
+          height: 50,
+          child: ListView.builder(
+            itemCount: Colors.primaries.length,
+            shrinkWrap: true,
+            scrollDirection: Axis.horizontal,
+            itemBuilder: (context, index) {
+              return GestureDetector(
+                onTap: () {
+                  selectedColor = index;
+                  setState(() {});
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                  child: CircleAvatar(
+                      radius: 25,
+                      backgroundColor: Colors.primaries[index],
+                      child: selectedColor == index
+                          ? Icon(
+                              Icons.check,
+                              color: Colors.white,
+                            )
+                          : null),
+                ),
+              );
+            },
+          ),
+        ),
       ],
     );
   }

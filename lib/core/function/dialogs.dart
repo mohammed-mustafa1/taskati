@@ -7,7 +7,10 @@ showErrorDialog(context,
     {required String message, DialogType type = DialogType.error}) {
   ScaffoldMessenger.of(context).showSnackBar(
     SnackBar(
-      content: Text(message),
+      content: Text(
+        message,
+        style: TextStyle(color: Colors.white),
+      ),
       backgroundColor: type == DialogType.error
           ? AppColors.red
           : type == DialogType.success

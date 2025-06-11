@@ -20,5 +20,13 @@
    "name_error":"Please enter your name",
    "name_hint":"Enter Your Name",
    "time_error":"start time must be before end time",
-   "time_in_the_past":"Start time must be in the future"
+   "time_in_the_past":"Start time must be in the future",
+   "start_time_notification_title":"Task is waiting for you",
+   "end_time_notification_title":"Great job! The task is done ",
+   "user_profile_title":"User Profile",
+   "night_mode":"Night Mode",
+   "language":"Language"
+   
+
+
 }
