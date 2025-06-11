@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:taskati/core/function/dialogs.dart';
@@ -33,6 +31,7 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
   @override
   void initState() {
     super.initState();
+    LocalNotificationService.requestNotificationPermission();
 
     if (widget.task != null) {
       selectedColor = widget.task!.color;
@@ -155,16 +154,16 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                     id: widget.task != null
                         ? widget.task!.id.hashCode
                         : id.hashCode,
-                    title: titleController.text,
-                    body: descriptionController.text,
+                    title: S.of(context).start_time_notification_title,
+                    body: titleController.text,
                     scheduledDate: scheduledStartDate);
 
                 await LocalNotificationService.showScheduledNotification(
                     id: widget.task != null
                         ? widget.task!.id.hashCode
                         : id.hashCode + 1,
-                    title: titleController.text,
-                    body: descriptionController.text,
+                    title: S.of(context).end_time_notification_title,
+                    body: titleController.text,
                     scheduledDate: scheduledEndtDate);
                 Navigator.pop(context);
               }

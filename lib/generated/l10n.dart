@@ -269,6 +269,56 @@ class S {
       args: [],
     );
   }
+
+  /// `Task is waiting for you`
+  String get start_time_notification_title {
+    return Intl.message(
+      'Task is waiting for you',
+      name: 'start_time_notification_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Great job! The task is done `
+  String get end_time_notification_title {
+    return Intl.message(
+      'Great job! The task is done ',
+      name: 'end_time_notification_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `User Profile`
+  String get user_profile_title {
+    return Intl.message(
+      'User Profile',
+      name: 'user_profile_title',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Night Mode`
+  String get night_mode {
+    return Intl.message(
+      'Night Mode',
+      name: 'night_mode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Language`
+  String get language {
+    return Intl.message(
+      'Language',
+      name: 'language',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
