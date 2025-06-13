@@ -300,11 +300,21 @@ class S {
     );
   }
 
-  /// `Night Mode`
-  String get night_mode {
+  /// `Notifications`
+  String get notifications {
     return Intl.message(
-      'Night Mode',
-      name: 'night_mode',
+      'Notifications',
+      name: 'notifications',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dark Mode`
+  String get theme {
+    return Intl.message(
+      'Dark Mode',
+      name: 'theme',
       desc: '',
       args: [],
     );
@@ -320,11 +330,61 @@ class S {
     );
   }
 
-  /// `Notifications`
-  String get notifications {
+  /// `Light`
+  String get light_mode {
     return Intl.message(
-      'Notifications',
-      name: 'notifications',
+      'Light',
+      name: 'light_mode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Dark`
+  String get dark_mode {
+    return Intl.message(
+      'Dark',
+      name: 'dark_mode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `system`
+  String get system_mode {
+    return Intl.message(
+      'system',
+      name: 'system_mode',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Open Camera`
+  String get select_image_camera {
+    return Intl.message(
+      'Open Camera',
+      name: 'select_image_camera',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Select from Gallery`
+  String get select_image_gallery {
+    return Intl.message(
+      'Select from Gallery',
+      name: 'select_image_gallery',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Settings updated successfully`
+  String get setting_success_message {
+    return Intl.message(
+      'Settings updated successfully',
+      name: 'setting_success_message',
       desc: '',
       args: [],
     );

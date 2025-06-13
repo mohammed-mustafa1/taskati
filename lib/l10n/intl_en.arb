@@ -24,9 +24,14 @@
    "start_time_notification_title":"Task is waiting for you",
    "end_time_notification_title":"Great job! The task is done ",
    "user_profile_title":"User Profile",
-   "night_mode":"Night Mode",
+   "notifications":"Notifications",
+   "theme":"Dark Mode",
    "language":"Language",
-   "notifications":"Notifications"
-
+   "light_mode":"Light",
+   "dark_mode":"Dark",
+   "system_mode":"system",
+   "select_image_camera":"Open Camera",
+   "select_image_gallery":"Select from Gallery",
+   "setting_success_message":"Settings updated successfully"
 
 }

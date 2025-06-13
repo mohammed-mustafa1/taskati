@@ -24,8 +24,15 @@
   "start_time_notification_title":"مهمة لطيفة بانتظارك",
   "end_time_notification_title":"عاش يا بطل، المهمة خلصت!",
   "user_profile_title":"ملف المستخدم",
-  "night_mode":"الوضع الليلي",
+  "notifications":"الاشعارات",
   "language":"اللغة",
-  "notifications":"الاشعارات"
+  "theme":"الوضع الليلي",
+  "light_mode":"فاتح",
+  "dark_mode":"داكن",
+  "system_mode":"نظام",
+  "select_image_camera":"تشغيل الكاميرا",
+  "select_image_gallery":"اختيار من المعرض",
+  "setting_success_message":"تم التعديل بنجاح"
+
 
 }
