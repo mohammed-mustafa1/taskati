@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:taskati/core/function/dialogs.dart';
@@ -92,6 +90,8 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             text: S.of(context).save_task_button,
             color: Colors.primaries[selectedColor],
             onPress: () async {
+              var isNotificationEnabled = LocalStorage.getUserData(
+                  key: LocalStorage.isNotificationsEnabled);
               String id =
                   titleController.text + DateTime.now().millisecond.toString();
               if (formKey.currentState!.validate()) {
@@ -133,22 +133,24 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           endTime: tempEndTime,
                           color: selectedColor,
                           isCompleted: false));
-                  LocalNotificationService.cancelNotifications(
+
+                  LocalNotificationService.cancelNotification(
                       id: widget.task!.id.hashCode);
-                  LocalNotificationService.cancelNotifications(
+                  LocalNotificationService.cancelNotification(
                       id: widget.task!.id.hashCode + 1);
+                  if (isNotificationEnabled) {
+                    await LocalNotificationService.showScheduledNotification(
+                        id: widget.task!.id.hashCode,
+                        title: S.of(context).start_time_notification_title,
+                        body: titleController.text,
+                        scheduledDate: scheduledStartDate);
 
-                  await LocalNotificationService.showScheduledNotification(
-                      id: widget.task!.id.hashCode,
-                      title: S.of(context).start_time_notification_title,
-                      body: titleController.text,
-                      scheduledDate: scheduledStartDate);
-
-                  await LocalNotificationService.showScheduledNotification(
-                      id: widget.task!.id.hashCode + 1,
-                      title: S.of(context).end_time_notification_title,
-                      body: titleController.text,
-                      scheduledDate: scheduledEndtDate);
+                    await LocalNotificationService.showScheduledNotification(
+                        id: widget.task!.id.hashCode + 1,
+                        title: S.of(context).end_time_notification_title,
+                        body: titleController.text,
+                        scheduledDate: scheduledEndtDate);
+                  }
                 } else {
                   // add new task
                   LocalStorage.cachTask(
@@ -163,19 +165,20 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
                           color: selectedColor,
                           isCompleted: false));
 
-                  await LocalNotificationService.showScheduledNotification(
-                      id: id.hashCode,
-                      title: S.of(context).start_time_notification_title,
-                      body: titleController.text,
-                      scheduledDate: scheduledStartDate);
+                  if (isNotificationEnabled) {
+                    await LocalNotificationService.showScheduledNotification(
+                        id: id.hashCode,
+                        title: S.of(context).start_time_notification_title,
+                        body: titleController.text,
+                        scheduledDate: scheduledStartDate);
 
-                  await LocalNotificationService.showScheduledNotification(
-                      id: id.hashCode + 1,
-                      title: S.of(context).end_time_notification_title,
-                      body: titleController.text,
-                      scheduledDate: scheduledEndtDate);
+                    await LocalNotificationService.showScheduledNotification(
+                        id: id.hashCode + 1,
+                        title: S.of(context).end_time_notification_title,
+                        body: titleController.text,
+                        scheduledDate: scheduledEndtDate);
+                  }
                 }
-
                 Navigator.pop(context);
               }
             }),

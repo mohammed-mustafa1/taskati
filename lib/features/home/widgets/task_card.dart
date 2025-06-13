@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:taskati/core/models/task_model.dart';
-import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/core/utils/text_styles.dart';
 
 class TaskCard extends StatelessWidget {
@@ -16,11 +15,7 @@ class TaskCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: task.color == 0
-            ? AppColors.primaryColor
-            : task.color == 1
-                ? AppColors.red
-                : AppColors.orange,
+        color: Colors.primaries[task.color],
         borderRadius: BorderRadius.circular(16),
       ),
       padding: EdgeInsets.all(8),

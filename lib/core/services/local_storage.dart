@@ -6,6 +6,7 @@ class LocalStorage {
   static const String image = 'UserImage';
   static const String theme = 'theme';
   static const String language = 'language';
+  static const String isNotificationsEnabled = 'isNotificationsEnabled';
   static late Box userBox;
   static late Box<TaskModel> taskBox;
   static init() {
@@ -15,7 +16,7 @@ class LocalStorage {
 
   static cachUserData({
     required String key,
-    required String value,
+    required dynamic value,
   }) {
     userBox.put(key, value);
   }

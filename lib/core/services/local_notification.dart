@@ -1,7 +1,8 @@
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:timezone/standalone.dart' as tz;
+import 'package:taskati/core/services/local_storage.dart';
+import 'package:timezone/timezone.dart' as tz;
 
 class LocalNotificationService {
   static FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -55,8 +56,41 @@ class LocalNotificationService {
     );
   }
 
-  static Future<void> cancelNotifications({required int id}) async {
+  static Future<List<PendingNotificationRequest>>
+      getPendingNotifications() async =>
+          flutterLocalNotificationsPlugin.pendingNotificationRequests();
+
+  static Future<void> rescheduleNotifications() async {
+    DateTime timeNow = DateTime.now();
+    if (LocalStorage.taskBox.values.isNotEmpty) {
+      for (var task in LocalStorage.taskBox.values) {
+        if (task.isCompleted || task.endTime.isBefore(timeNow)) continue;
+        if (task.startTime.isAfter(timeNow)) {
+          await showScheduledNotification(
+            id: task.id.hashCode,
+            title: task.title,
+            body: task.description,
+            scheduledDate: tz.TZDateTime.from(task.startTime, tz.local),
+          );
+        }
+        if (task.endTime.isAfter(timeNow)) {
+          await showScheduledNotification(
+            id: task.id.hashCode + 1,
+            title: task.title,
+            body: task.description,
+            scheduledDate: tz.TZDateTime.from(task.endTime, tz.local),
+          );
+        }
+      }
+    }
+  }
+
+  static Future<void> cancelNotification({required int id}) async {
     await flutterLocalNotificationsPlugin.cancel(id);
+  }
+
+  static Future<void> cancelAllNotifications() async {
+    await flutterLocalNotificationsPlugin.cancelAll();
   }
 
   static Future<void> requestNotificationPermission() async {

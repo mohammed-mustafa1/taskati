@@ -44,6 +44,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Please enter your name"),
         "name_hint": MessageLookupByLibrary.simpleMessage("Enter Your Name"),
         "night_mode": MessageLookupByLibrary.simpleMessage("Night Mode"),
+        "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "save_task_button": MessageLookupByLibrary.simpleMessage("Save"),
         "start_time": MessageLookupByLibrary.simpleMessage("Start Time"),
         "start_time_notification_title":

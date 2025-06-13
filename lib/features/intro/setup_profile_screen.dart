@@ -5,6 +5,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:taskati/core/constants/app_images.dart';
 import 'package:taskati/core/function/dialogs.dart';
 import 'package:taskati/core/function/navigations.dart';
+import 'package:taskati/core/services/local_notification.dart';
 import 'package:taskati/core/services/local_storage.dart';
 import 'package:taskati/core/utils/colors.dart';
 import 'package:taskati/core/utils/text_styles.dart';
@@ -27,6 +28,7 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
   bool isDarkMode = false;
   TextEditingController nameController = TextEditingController();
   late String language;
+  bool isNotificationEnabled = false;
   @override
   void initState() {
     super.initState();
@@ -38,6 +40,9 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
         Brightness.dark.name;
     editingName = widget.isFirstTime;
     language = LocalStorage.getUserData(key: LocalStorage.language) ?? 'en';
+    isNotificationEnabled =
+        LocalStorage.getUserData(key: LocalStorage.isNotificationsEnabled) ??
+            false;
   }
 
   @override
@@ -120,31 +125,6 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      S.of(context).night_mode,
-                      style:
-                          TextStyles.body.copyWith(fontWeight: FontWeight.w600),
-                    ),
-                    Switch(
-                        activeTrackColor: AppColors.primaryColor,
-                        value: isDarkMode,
-                        onChanged: (value) {
-                          setState(() {
-                            isDarkMode = !isDarkMode;
-                            LocalStorage.cachUserData(
-                              key: LocalStorage.theme,
-                              value: isDarkMode == true
-                                  ? Brightness.dark.name
-                                  : Brightness.light.name,
-                            );
-                          });
-                        }),
-                  ],
-                ),
-                Divider(height: 32, thickness: 1, color: AppColors.grey),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
                       S.of(context).language,
                       style:
                           TextStyles.body.copyWith(fontWeight: FontWeight.w600),
@@ -172,6 +152,50 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
                         ]),
                   ],
                 ),
+                Divider(height: 32, thickness: 1, color: AppColors.grey),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      S.of(context).night_mode,
+                      style:
+                          TextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                    Switch(
+                        activeTrackColor: AppColors.primaryColor,
+                        value: isDarkMode,
+                        onChanged: (value) {
+                          setState(() {
+                            isDarkMode = !isDarkMode;
+                            LocalStorage.cachUserData(
+                              key: LocalStorage.theme,
+                              value: isDarkMode == true
+                                  ? Brightness.dark.name
+                                  : Brightness.light.name,
+                            );
+                          });
+                        }),
+                  ],
+                ),
+                Divider(height: 32, thickness: 1, color: AppColors.grey),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      S.of(context).notifications,
+                      style:
+                          TextStyles.body.copyWith(fontWeight: FontWeight.w600),
+                    ),
+                    Switch(
+                        activeTrackColor: AppColors.primaryColor,
+                        value: isNotificationEnabled,
+                        onChanged: (value) async {
+                          setState(() {
+                            isNotificationEnabled = value;
+                          });
+                        }),
+                  ],
+                ),
               ],
             ),
           ),
@@ -179,25 +203,37 @@ class _SetupProfileScreenState extends State<SetupProfileScreen> {
         bottomNavigationBar: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           child: MainButton(
-            text: S.of(context).save_task_button,
-            onPress: () {
-              if (imagePath != null && nameController.text.isNotEmpty) {
-                LocalStorage.cachUserData(
-                    key: LocalStorage.image, value: imagePath!);
-                LocalStorage.cachUserData(
+              text: S.of(context).save_task_button,
+              onPress: () async {
+                var cachUserData = LocalStorage.cachUserData;
+                if (imagePath == null) {
+                  showErrorDialog(context, message: S.of(context).image_error);
+                  return;
+                }
+                if (nameController.text.isEmpty) {
+                  showErrorDialog(context, message: S.of(context).name_error);
+                  return;
+                }
+
+                cachUserData(key: LocalStorage.image, value: imagePath!);
+                cachUserData(
                     key: LocalStorage.name, value: nameController.text);
+                cachUserData(key: LocalStorage.language, value: language);
+                cachUserData(
+                    key: LocalStorage.isNotificationsEnabled,
+                    value: isNotificationEnabled);
+
+                var pendingNotifications =
+                    await LocalNotificationService.getPendingNotifications();
+
+                if (isNotificationEnabled && pendingNotifications.isEmpty) {
+                  await LocalNotificationService.rescheduleNotifications();
+                } else if (isNotificationEnabled == false) {
+                  await LocalNotificationService.cancelAllNotifications();
+                }
+
                 context.pushReplacement(const HomeScreen());
-              }
-              if (imagePath == null) {
-                showErrorDialog(context, message: S.of(context).image_error);
-              }
-              if (nameController.text.isEmpty) {
-                showErrorDialog(context, message: S.of(context).name_error);
-              }
-              LocalStorage.cachUserData(
-                  key: LocalStorage.language, value: language);
-            },
-          ),
+              }),
         ));
   }
 

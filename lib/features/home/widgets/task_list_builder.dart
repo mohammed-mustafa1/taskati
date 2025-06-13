@@ -37,17 +37,17 @@ class TaskListBuilder extends StatelessWidget {
                         onDismissed: (direction) {
                           if (direction == DismissDirection.endToStart) {
                             box.delete(tasks[index].id);
-                            LocalNotificationService.cancelNotifications(
+                            LocalNotificationService.cancelNotification(
                                 id: tasks[index].id.hashCode);
-                            LocalNotificationService.cancelNotifications(
+                            LocalNotificationService.cancelNotification(
                                 id: tasks[index].id.hashCode + 1);
                           } else {
                             box.put(tasks[index].id,
                                 tasks[index].copyWith(isCompleted: true));
 
-                            LocalNotificationService.cancelNotifications(
+                            LocalNotificationService.cancelNotification(
                                 id: tasks[index].id.hashCode);
-                            LocalNotificationService.cancelNotifications(
+                            LocalNotificationService.cancelNotification(
                                 id: tasks[index].id.hashCode + 1);
                           }
                         },

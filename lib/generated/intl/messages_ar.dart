@@ -43,6 +43,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "name_error": MessageLookupByLibrary.simpleMessage("من فضلك اكتب اسمك"),
         "name_hint": MessageLookupByLibrary.simpleMessage("اكتب اسمك هنا"),
         "night_mode": MessageLookupByLibrary.simpleMessage("الوضع الليلي"),
+        "notifications": MessageLookupByLibrary.simpleMessage("الاشعارات"),
         "save_task_button": MessageLookupByLibrary.simpleMessage("حفظ"),
         "start_time": MessageLookupByLibrary.simpleMessage("وقت البداية"),
         "start_time_notification_title":
