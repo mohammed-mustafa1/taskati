@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:taskati/core/widgets/main_button.dart';
+import 'package:taskati/generated/l10n.dart';
 
 showUploadBottomSheet(
   BuildContext context, {
@@ -15,12 +16,12 @@ showUploadBottomSheet(
               mainAxisSize: MainAxisSize.min,
               children: [
                 MainButton(
-                  text: 'Upload Image From Camera',
+                  text: S.of(context).select_image_camera,
                   onPress: onPressCamera,
                 ),
                 SizedBox(height: 16),
                 MainButton(
-                  text: 'Upload Image From Gallery',
+                  text: S.of(context).select_image_gallery,
                   onPress: onPressGallery,
                 ),
               ],

@@ -11,6 +11,7 @@
 - ⏰ Local notifications for:
   - Task start time
   - Task end time
+  - User can enable or disable notifications manually
 - 🌙 Light and Dark themes 
 - 🌐 Arabic and English language support
 - 💾 Caching Tasks using [Hive](https://pub.dev/packages/hive)

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart' as intl;
 import 'package:taskati/core/function/dialogs.dart';
 import 'package:taskati/core/models/task_model.dart';
@@ -90,8 +91,9 @@ class _AddTaskScreenState extends State<AddTaskScreen> {
             text: S.of(context).save_task_button,
             color: Colors.primaries[selectedColor],
             onPress: () async {
-              var isNotificationEnabled = LocalStorage.getUserData(
-                  key: LocalStorage.isNotificationsEnabled);
+              var isNotificationEnabled = context
+                  .read()<LocalNotificationService>()
+                  .isNotificationEnabled;
               String id =
                   titleController.text + DateTime.now().millisecond.toString();
               if (formKey.currentState!.validate()) {

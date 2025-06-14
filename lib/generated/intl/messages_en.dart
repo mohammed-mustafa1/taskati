@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hello": MessageLookupByLibrary.simpleMessage("Hello"),
         "add_task": MessageLookupByLibrary.simpleMessage("Add Task"),
         "color": MessageLookupByLibrary.simpleMessage("Color"),
+        "dark_mode": MessageLookupByLibrary.simpleMessage("Dark"),
         "date": MessageLookupByLibrary.simpleMessage("Date"),
         "description": MessageLookupByLibrary.simpleMessage("Description"),
         "description_error":
@@ -40,15 +41,23 @@ class MessageLookup extends MessageLookupByLibrary {
         "image_error":
             MessageLookupByLibrary.simpleMessage("Please select an image"),
         "language": MessageLookupByLibrary.simpleMessage("Language"),
+        "light_mode": MessageLookupByLibrary.simpleMessage("Light"),
         "name_error":
             MessageLookupByLibrary.simpleMessage("Please enter your name"),
         "name_hint": MessageLookupByLibrary.simpleMessage("Enter Your Name"),
-        "night_mode": MessageLookupByLibrary.simpleMessage("Night Mode"),
         "notifications": MessageLookupByLibrary.simpleMessage("Notifications"),
         "save_task_button": MessageLookupByLibrary.simpleMessage("Save"),
+        "select_image_camera":
+            MessageLookupByLibrary.simpleMessage("Open Camera"),
+        "select_image_gallery":
+            MessageLookupByLibrary.simpleMessage("Select from Gallery"),
+        "setting_success_message": MessageLookupByLibrary.simpleMessage(
+            "Settings updated successfully"),
         "start_time": MessageLookupByLibrary.simpleMessage("Start Time"),
         "start_time_notification_title":
             MessageLookupByLibrary.simpleMessage("Task is waiting for you"),
+        "system_mode": MessageLookupByLibrary.simpleMessage("system"),
+        "theme": MessageLookupByLibrary.simpleMessage("Dark Mode"),
         "time_error": MessageLookupByLibrary.simpleMessage(
             "start time must be before end time"),
         "time_in_the_past": MessageLookupByLibrary.simpleMessage(

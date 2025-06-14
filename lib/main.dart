@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:taskati/core/cubit/profile_cubit.dart';
+import 'package:taskati/core/cubit/profile_state.dart';
 import 'package:taskati/core/models/task_model.dart';
 import 'package:taskati/core/services/local_notification.dart';
 import 'package:taskati/core/services/local_storage.dart';
@@ -21,22 +24,27 @@ void main() async {
   runApp(Taskati());
 }
 
-class Taskati extends StatefulWidget {
+class Taskati extends StatelessWidget {
   const Taskati({super.key});
 
   @override
-  State<Taskati> createState() => _TaskatiState();
-}
-
-class _TaskatiState extends State<Taskati> {
-  @override
   Widget build(BuildContext context) {
-    return ValueListenableBuilder(
-        valueListenable: LocalStorage.userBox.listenable(),
-        builder: (context, value, child) {
-          var language = value.get(LocalStorage.language);
+    return BlocProvider(
+      create: (context) => ProfileCubit(),
+      child: BlocBuilder<ProfileCubit, ProfileState>(
+        builder: (context, state) {
+          var cubit = BlocProvider.of<ProfileCubit>(context);
+          String systemTeheme = MediaQuery.of(context).platformBrightness.name;
           return MaterialApp(
-            locale: Locale(language ?? 'en'),
+            theme: cubit.theme == 'system'
+                ? systemTeheme == Brightness.light.name
+                    ? AppTheme.litheTheme
+                    : AppTheme.darkTheme
+                : cubit.theme == 'light'
+                    ? AppTheme.litheTheme
+                    : AppTheme.darkTheme,
+            home: SplashScreen(),
+            locale: Locale(cubit.language),
             localizationsDelegates: [
               S.delegate,
               GlobalMaterialLocalizations.delegate,
@@ -45,11 +53,9 @@ class _TaskatiState extends State<Taskati> {
             ],
             supportedLocales: S.delegate.supportedLocales,
             debugShowCheckedModeBanner: false,
-            theme: value.get(LocalStorage.theme) == 'dark'
-                ? AppTheme.darkTheme
-                : AppTheme.litheTheme,
-            home: SplashScreen(),
           );
-        });
+        },
+      ),
+    );
   }
 }

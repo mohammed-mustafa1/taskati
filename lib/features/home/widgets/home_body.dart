@@ -20,7 +20,6 @@ class _HomeBodyState extends State<HomeBody> {
   @override
   void initState() {
     super.initState();
-
     selectedDate = DateTime.now();
   }
 

@@ -27,6 +27,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "Hello": MessageLookupByLibrary.simpleMessage("أهلاً بيك"),
         "add_task": MessageLookupByLibrary.simpleMessage("أضف مهمة"),
         "color": MessageLookupByLibrary.simpleMessage("اللون"),
+        "dark_mode": MessageLookupByLibrary.simpleMessage("داكن"),
         "date": MessageLookupByLibrary.simpleMessage("التاريخ"),
         "description": MessageLookupByLibrary.simpleMessage("الوصف"),
         "description_error":
@@ -40,14 +41,22 @@ class MessageLookup extends MessageLookupByLibrary {
         "image_error":
             MessageLookupByLibrary.simpleMessage("من فضلك اختار صورة"),
         "language": MessageLookupByLibrary.simpleMessage("اللغة"),
+        "light_mode": MessageLookupByLibrary.simpleMessage("فاتح"),
         "name_error": MessageLookupByLibrary.simpleMessage("من فضلك اكتب اسمك"),
         "name_hint": MessageLookupByLibrary.simpleMessage("اكتب اسمك هنا"),
-        "night_mode": MessageLookupByLibrary.simpleMessage("الوضع الليلي"),
         "notifications": MessageLookupByLibrary.simpleMessage("الاشعارات"),
         "save_task_button": MessageLookupByLibrary.simpleMessage("حفظ"),
+        "select_image_camera":
+            MessageLookupByLibrary.simpleMessage("تشغيل الكاميرا"),
+        "select_image_gallery":
+            MessageLookupByLibrary.simpleMessage("اختيار من المعرض"),
+        "setting_success_message":
+            MessageLookupByLibrary.simpleMessage("تم التعديل بنجاح"),
         "start_time": MessageLookupByLibrary.simpleMessage("وقت البداية"),
         "start_time_notification_title":
             MessageLookupByLibrary.simpleMessage("مهمة لطيفة بانتظارك"),
+        "system_mode": MessageLookupByLibrary.simpleMessage("نظام"),
+        "theme": MessageLookupByLibrary.simpleMessage("الوضع الليلي"),
         "time_error": MessageLookupByLibrary.simpleMessage(
             "وقت البدء يجب ان يكون قبل وقت النهاية"),
         "time_in_the_past": MessageLookupByLibrary.simpleMessage(
